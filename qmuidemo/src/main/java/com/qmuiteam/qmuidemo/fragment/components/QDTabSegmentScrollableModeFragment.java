@@ -76,7 +76,6 @@ public class QDTabSegmentScrollableModeFragment extends BaseFragment {
         mQDItemDescription = QDDataManager.getInstance().getDescription(this.getClass());
         initTopBar();
         initTabAndPager();
-
         return rootView;
     }
 

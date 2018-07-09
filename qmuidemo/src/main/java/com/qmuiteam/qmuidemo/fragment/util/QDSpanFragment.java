@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.span.QMUIAlignMiddleImageSpan;
-import com.qmuiteam.qmui.span.QMUIBlockSpaceSpan;
-import com.qmuiteam.qmui.span.QMUICustomTypefaceSpan;
 import com.qmuiteam.qmui.span.QMUIMarginImageSpan;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIDrawableHelper;
@@ -110,13 +108,12 @@ public class QDSpanFragment extends BaseFragment {
         String paragraphSecond = "这是第二段比较长的段落，演示在段落之间插入段落间距。";
         String spaceString = "[space]";
         SpannableString paragraphText = new SpannableString(paragraphFirst + spaceString + paragraphSecond);
-        QMUIBlockSpaceSpan blockSpaceSpan = new QMUIBlockSpaceSpan(QMUIDisplayHelper.dp2px(getContext(), 6));
-        paragraphText.setSpan(blockSpaceSpan, paragraphFirst.length(), paragraphFirst.length() + spaceString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
         mBlockSpaceTextView.setText(paragraphText);
 
         // 自定义部分文字的字体
         SpannableString customTypefaceText = new SpannableString(getResources().getString(R.string.spanUtils_rmb) + "100， 前面的人民币符号使用自定义字体特殊处理，对比这个普通的人民币符号: " + getResources().getString(R.string.spanUtils_rmb));
-        customTypefaceText.setSpan(new QMUICustomTypefaceSpan("", TYPEFACE_RMB), 0, getString(R.string.spanUtils_rmb).length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
         mCustomTypefaceTextView.setText(customTypefaceText);
     }
 }

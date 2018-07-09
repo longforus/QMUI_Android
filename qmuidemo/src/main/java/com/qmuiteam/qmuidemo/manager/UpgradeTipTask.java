@@ -8,10 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.View;
-
-import com.qmuiteam.qmui.span.QMUIBlockSpaceSpan;
 import com.qmuiteam.qmui.span.QMUITouchableSpan;
-import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIPackageHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmuidemo.R;
@@ -43,8 +40,7 @@ public class UpgradeTipTask implements UpgradeTask {
     private void appendBlockSpace(Context context, SpannableStringBuilder builder) {
         int start = builder.length();
         builder.append("[space]");
-        QMUIBlockSpaceSpan blockSpaceSpan = new QMUIBlockSpaceSpan(QMUIDisplayHelper.dp2px(context, 6));
-        builder.setSpan(blockSpaceSpan, start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
     }
 
     public CharSequence getUpgradeWord(final Activity activity) {

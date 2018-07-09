@@ -76,6 +76,12 @@ public class QDAboutFragment extends BaseFragment {
         });
 
         mTopBar.setTitle(getResources().getString(R.string.about_title));
+        mTopBar.addRightTextButton("关于",R.id.textView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popBackStack();
+            }
+        });
     }
 
     @Override

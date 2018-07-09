@@ -1,12 +1,5 @@
 apply plugin: 'maven-publish'
 
-Properties properties = new Properties()
-File projectPropertiesFile = project.file('deploy.properties')
-if (projectPropertiesFile.exists()) {
-    properties.load(projectPropertiesFile.newDataInputStream())
-} else {
-    throw new Error("Cannot find deploy.properties file in " + project.name + " folder")
-}
 publishing {
     publications {
         mavenjava(MavenPublication) {
@@ -43,11 +36,35 @@ publishing {
     }
     repositories {
         maven {
-            url properties.getProperty("maven.url")
+            url "http://192.168.2.105:8908/repository/other/"
             credentials {
-                username properties.getProperty("maven.username")
-                password properties.getProperty("maven.password")
+                username "void"
+                password "void"
             }
         }
+    }
+
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    javadoc { //javadoc 采用 utf-8 编码否则会报“GBK的不可映射字符”错误
+        options{
+            encoding "UTF-8"
+            charSet "UTF-8"
+        }
+    }
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
     }
 }

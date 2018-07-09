@@ -1,13 +1,16 @@
 package com.qmuiteam.qmuidemo.fragment.components;
 
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import android.widget.Toast;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+import com.qmuiteam.qmui.widget.dialog.Tips;
 import com.qmuiteam.qmuidemo.manager.QDDataManager;
 import com.qmuiteam.qmuidemo.base.BaseFragment;
 import com.qmuiteam.qmuidemo.model.QDItemDescription;
@@ -75,31 +78,25 @@ public class QDTipDialogFragment extends BaseFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final QMUITipDialog tipDialog;
+                 QMUITipDialog tipDialog = null;
                 switch (position) {
                     case 0:
-                        tipDialog = new QMUITipDialog.Builder(getContext())
-                                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                                .setTipWord("正在加载")
-                                .create();
+                        Tips.loading(getContext()).showAndAutoDismiss();
+                        //tipDialog = new QMUITipDialog.Builder(getContext())
+                        //        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                        //        .setTipWord("正在加载")
+                        //        .create();
                         break;
                     case 1:
-                        tipDialog = new QMUITipDialog.Builder(getContext())
-                                .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
-                                .setTipWord("发送成功")
-                                .create();
+                        Tips.success(getContext()).showAndAutoDismiss();
+
                         break;
                     case 2:
-                        tipDialog = new QMUITipDialog.Builder(getContext())
-                                .setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
-                                .setTipWord("发送失败")
-                                .create();
+                        Tips.fail(getContext()).showAndAutoDismiss();
+
                         break;
                     case 3:
-                        tipDialog = new QMUITipDialog.Builder(getContext())
-                                .setIconType(QMUITipDialog.Builder.ICON_TYPE_INFO)
-                                .setTipWord("请勿重复操作")
-                                .create();
+                        Tips.info(getContext(),"别点了").showAndAutoDismiss();
                         break;
                     case 4:
                         tipDialog = new QMUITipDialog.Builder(getContext())
@@ -107,9 +104,12 @@ public class QDTipDialogFragment extends BaseFragment {
                                 .create();
                         break;
                     case 5:
-                        tipDialog = new QMUITipDialog.Builder(getContext())
-                                .setTipWord("请勿重复操作")
-                                .create();
+                        Tips.text(getContext(),"只有字").showAndAutoDismiss(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                Toast.makeText(getContext(),"dismiss",Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         break;
                     case 6:
                         tipDialog = new QMUITipDialog.CustomBuilder(getContext())
@@ -122,13 +122,16 @@ public class QDTipDialogFragment extends BaseFragment {
                                 .setTipWord("正在加载")
                                 .create();
                 }
-                tipDialog.show();
-                mListView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        tipDialog.dismiss();
-                    }
-                }, 1500);
+                if (tipDialog!=null) {
+                    tipDialog.show();
+                    final QMUITipDialog finalTipDialog = tipDialog;
+                    mListView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finalTipDialog.dismiss();
+                        }
+                    }, 1500);
+                }
             }
         });
     }

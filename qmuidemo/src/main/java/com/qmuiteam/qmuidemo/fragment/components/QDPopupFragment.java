@@ -74,7 +74,7 @@ public class QDPopupFragment extends BaseFragment {
 
     private void initNormalPopupIfNeed() {
         if (mNormalPopup == null) {
-            mNormalPopup = new QMUIPopup(getContext(), QMUIPopup.DIRECTION_NONE);
+            mNormalPopup = new QMUIPopup(getContext(), QMUIPopup.DIRECTION_BOTTOM);
             TextView textView = new TextView(getContext());
             textView.setLayoutParams(mNormalPopup.generateLayoutParam(
                     QMUIDisplayHelper.dp2px(getContext(), 250),

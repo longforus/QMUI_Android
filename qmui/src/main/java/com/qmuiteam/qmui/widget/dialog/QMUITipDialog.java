@@ -37,6 +37,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public class QMUITipDialog extends Dialog {
+    public static final int DELAY_MILLIS = 1500;
 
     public QMUITipDialog(Context context) {
         this(context, R.style.QMUI_TipDialog);
@@ -60,6 +61,28 @@ public class QMUITipDialog extends Dialog {
             wmLp.width = ViewGroup.LayoutParams.MATCH_PARENT;
             window.setAttributes(wmLp);
         }
+    }
+
+    public QMUITipDialog showAndAutoDismiss() {
+        show();
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismiss();
+            }
+        },DELAY_MILLIS);
+        return this;
+    }
+
+    public QMUITipDialog showAndAutoDismiss(OnDismissListener dismissListener) {
+        setOnDismissListener(dismissListener);
+        return showAndAutoDismiss();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        getWindow().getDecorView().removeCallbacks(null);
     }
 
     /**
@@ -92,6 +115,7 @@ public class QMUITipDialog extends Dialog {
          */
         public static final int ICON_TYPE_INFO = 4;
 
+
         @IntDef({ICON_TYPE_NOTHING, ICON_TYPE_LOADING, ICON_TYPE_SUCCESS, ICON_TYPE_FAIL, ICON_TYPE_INFO})
         @Retention(RetentionPolicy.SOURCE)
         public @interface IconType {
@@ -102,6 +126,7 @@ public class QMUITipDialog extends Dialog {
         private Context mContext;
 
         private CharSequence mTipWord;
+
 
         public Builder(Context context) {
             mContext = context;
